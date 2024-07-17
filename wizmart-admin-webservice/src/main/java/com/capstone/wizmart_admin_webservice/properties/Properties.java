@@ -11,6 +11,9 @@ public class Properties {
 
 	 @Value("${aws.cognito.logout.success.redirectUrl}")
 	 private String logoutSuccessRedirectUrl;
+	 
+	 @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
+	 private String clientId;
 
 	 public String getLogoutUrl() {
         return logoutUrl;
@@ -18,5 +21,9 @@ public class Properties {
 
 	 public String getLogoutSuccessRedirectUrl() {
         return logoutSuccessRedirectUrl;
+	 }
+	 
+	 public String getClientId() {
+		 return clientId;
 	 }
 }

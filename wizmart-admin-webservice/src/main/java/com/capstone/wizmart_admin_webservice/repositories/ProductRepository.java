@@ -7,5 +7,4 @@ import com.capstone.wizmart_admin_webservice.model.Products;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Products, Long> {
-    // Additional query methods (if any) can be defined here
 }

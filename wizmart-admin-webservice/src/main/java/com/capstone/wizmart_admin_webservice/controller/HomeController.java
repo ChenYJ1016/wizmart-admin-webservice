@@ -52,9 +52,6 @@ public class HomeController {
 
     @Autowired
     private ProductCommandService productCommandService;
-    
-    @Autowired
-    private ProductCommandHandler productCommandHandler;
 
     @GetMapping
     public String redirectToAdmin() {
@@ -62,7 +59,7 @@ public class HomeController {
             return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in redirectToAdmin", e);
-            return "error"; // Return an error page
+            return "error"; 
         }
     }
 
@@ -74,7 +71,7 @@ public class HomeController {
             return "admin";
         } catch (Exception e) {
             logger.error("Error in adminPage", e);
-            return "error"; // Return an error page
+            return "error"; 
         }
     }
 
@@ -85,7 +82,7 @@ public class HomeController {
         	return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in createProduct", e);
-            return "error"; // Return an error page
+            return "error"; 
         }
     }
 
@@ -98,7 +95,7 @@ public class HomeController {
             return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in updateProduct", e);
-            return "error"; // Return an error page
+            return "error"; 
         }
     }
 
@@ -112,7 +109,7 @@ public class HomeController {
             return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in deleteProduct", e);
-            return "error"; // Return an error page
+            return "error"; 
         }
     }
 
@@ -141,7 +138,7 @@ public class HomeController {
             return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in logout", e);
-            return "error"; // Return an error page
+            return "error"; 
         }
     }
 
@@ -152,7 +149,7 @@ public class HomeController {
             return base64Encoder.encodeToString(randomBytes);
         } catch (Exception e) {
             logger.error("Error in generateState", e);
-            return null; // Return a default or null value
+            return null; 
         }
     }
 }

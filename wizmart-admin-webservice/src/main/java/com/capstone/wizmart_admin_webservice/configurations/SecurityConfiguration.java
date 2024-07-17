@@ -1,6 +1,6 @@
 package com.capstone.wizmart_admin_webservice.configurations;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,19 +11,14 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 import com.capstone.wizmart_admin_webservice.handlers.CustomLogoutHandler;
+import com.capstone.wizmart_admin_webservice.properties.Properties;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Value("${aws.cognito.logoutUrl}")
-    private String logoutUrl;
-
-    @Value("${aws.cognito.logout.success.redirectUrl}")
-    private String logoutRedirectUrl;
-
-    @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
-    private String clientId;
+    @Autowired
+    private Properties properties;
 
     @Bean
     public OidcUserService oidcUserService() {
@@ -32,6 +27,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        String logoutUrl = properties.getLogoutUrl();
+        String logoutRedirectUrl = properties.getLogoutSuccessRedirectUrl();
+        String clientId = properties.getClientId();
+
         HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
         requestCache.setMatchingRequestParameterName("continue");
 
@@ -53,7 +53,11 @@ public class SecurityConfiguration {
                     (LogoutSuccessHandler) new CustomLogoutHandler(logoutUrl, logoutRedirectUrl, clientId)
                 )
             )
-            .requestCache(cache -> cache.requestCache(requestCache));
+            .requestCache(cache -> cache.requestCache(requestCache))
+            .exceptionHandling(exceptionHandling ->
+                exceptionHandling
+                    .accessDeniedPage("/error")
+            );
 
         return http.build();
     }
