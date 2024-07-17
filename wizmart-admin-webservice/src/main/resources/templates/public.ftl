@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Public Page</title>
+</head>
+<body>
+    <h1>Welcome to the Public Page!</h1>
+    <p>This page is accessible to everyone.</p>
+</body>
+</html>
