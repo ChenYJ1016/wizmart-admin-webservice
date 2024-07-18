@@ -3,96 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-            width: 100%;
-        }
-        .navbar a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .navbar .logout-button {
-            float: right;
-        }
-        /* Table and Modal Styles */
-        .table-container {
-            width: 80%;
-            position: relative;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .add-product-button {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.4); 
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; 
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; 
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" href="/static/icon/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="navbar">
@@ -169,6 +81,16 @@
                 </form>
             </div>
         </div>
+
+        <!-- Error Modal -->
+        <div id="errorModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeErrorModal()">&times;</span>
+                <h2>Error</h2>
+                <div id="errorMessages"></div>
+                <button onclick="closeErrorModal()">Close</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -193,13 +115,36 @@
             document.getElementById('createModal').style.display = "none";
         }
 
+        function openErrorModal(errors) {
+            const errorMessages = document.getElementById('errorMessages');
+            errorMessages.innerHTML = '';
+            errors.forEach(error => {
+                const errorMsg = document.createElement('p');
+                errorMsg.textContent = error;
+                errorMessages.appendChild(errorMsg);
+            });
+            document.getElementById('errorModal').style.display = "block";
+        }
+
+        function closeErrorModal() {
+            document.getElementById('errorModal').style.display = "none";
+        }
+
         window.onclick = function(event) {
             if (event.target == document.getElementById('updateModal')) {
                 closeUpdateModal();
             } else if (event.target == document.getElementById('createModal')) {
                 closeCreateModal();
+            } else if (event.target == document.getElementById('errorModal')) {
+                closeErrorModal();
             }
         }
+
+        // If there are errors passed from the server, open the error modal
+        <#if errors??>
+            let errors = [<#list errors as error>"${error.defaultMessage}"<#if error_has_next>,</#if></#list>];
+            openErrorModal(errors);
+        </#if>
     </script>
 </body>
 </html>

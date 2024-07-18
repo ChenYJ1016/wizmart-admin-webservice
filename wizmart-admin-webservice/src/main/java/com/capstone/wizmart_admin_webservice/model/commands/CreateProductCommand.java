@@ -1,9 +1,20 @@
 package com.capstone.wizmart_admin_webservice.model.commands;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 public class CreateProductCommand {
+    
+	@NotNull(message = "Product name cannot be null")
     private String name;
+    
+	@NotNull(message = "Product description cannot be null")
     private String description;
+    
+    @Min(value = 0, message = "Product price must be non-negative")
     private double price;
+    
+    @Min(value = 0, message = "Product stock must be non-negative")
     private int quantity;
 
     // Getters and Setters

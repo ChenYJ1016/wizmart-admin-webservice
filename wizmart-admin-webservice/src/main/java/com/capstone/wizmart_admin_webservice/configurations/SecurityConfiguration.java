@@ -39,6 +39,7 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/admin/**").authenticated()
+                    .requestMatchers("static/**").permitAll() 
             )
             .oauth2Login(oauth2Login ->
                 oauth2Login
