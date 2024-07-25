@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import com.capstone.wizmart_admin_webservice.dto.CreateProductCommand;
+import com.capstone.wizmart_admin_webservice.dto.DeleteProductCommand;
+import com.capstone.wizmart_admin_webservice.dto.UpdateProductCommand;
 import com.capstone.wizmart_admin_webservice.listener.ProductEventListener;
 import com.capstone.wizmart_admin_webservice.model.Event;
-import com.capstone.wizmart_admin_webservice.model.commands.CreateProductCommand;
-import com.capstone.wizmart_admin_webservice.model.commands.DeleteProductCommand;
-import com.capstone.wizmart_admin_webservice.model.commands.UpdateProductCommand;
 import com.capstone.wizmart_admin_webservice.repositories.EventRepository;
 
 @Component

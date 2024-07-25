@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.capstone.wizmart_admin_webservice.dto.CreateProductCommand;
+import com.capstone.wizmart_admin_webservice.dto.DeleteProductCommand;
+import com.capstone.wizmart_admin_webservice.dto.UpdateProductCommand;
 import com.capstone.wizmart_admin_webservice.handlers.ProductCommandHandler;
 import com.capstone.wizmart_admin_webservice.model.Products;
-import com.capstone.wizmart_admin_webservice.model.commands.CreateProductCommand;
-import com.capstone.wizmart_admin_webservice.model.commands.DeleteProductCommand;
-import com.capstone.wizmart_admin_webservice.model.commands.UpdateProductCommand;
 import com.capstone.wizmart_admin_webservice.properties.Properties;
 import com.capstone.wizmart_admin_webservice.services.ProductCommandService;
 import com.capstone.wizmart_admin_webservice.services.ProductQueryService;
@@ -40,11 +40,11 @@ import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/admin")
-public class HomeController {
+public class AdminController {
 
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private Properties properties;
@@ -76,54 +76,6 @@ public class HomeController {
             return "error"; 
         }
     }
-
-    @PostMapping("/products/create")
-    public String createProduct(@Valid @ModelAttribute CreateProductCommand command, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
-            model.addAttribute("products", productQueryService.getAllProducts());
-            return "admin";
-        }
-        try {
-            productCommandService.createProduct(command);
-            return "redirect:/admin/";
-        } catch (Exception e) {
-            logger.error("Error in createProduct", e);
-            return "error";
-        }
-    }
-
-    @PutMapping("/products/update/{productId}")
-    public String updateProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute UpdateProductCommand command, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
-            model.addAttribute("products", productQueryService.getAllProducts());
-            return "admin";
-        }
-        try {
-            command.setProductId(productId);
-            productCommandService.updateProduct(command);
-            return "redirect:/admin/";
-        } catch (Exception e) {
-            logger.error("Error in updateProduct", e);
-            return "error";
-        }
-    }
-
-    @DeleteMapping("/products/delete/{productId}")
-    public String deleteProduct(@PathVariable("productId") Long productId) {
-        try {
-
-            DeleteProductCommand command = new DeleteProductCommand();
-            command.setProductId(productId);
-            productCommandService.deleteProduct(command);
-            return "redirect:/admin/";
-        } catch (Exception e) {
-            logger.error("Error in deleteProduct", e);
-            return "error"; 
-        }
-    }
-
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {

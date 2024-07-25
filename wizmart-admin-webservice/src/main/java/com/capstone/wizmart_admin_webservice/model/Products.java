@@ -20,6 +20,16 @@ public class Products {
     private String productDescription;
 
     private double productPrice;
+    
+    private String productImageUrl;
+    
+    private String productColour;
+    
+    private String gender;
+    
+    private String size;
+    
+    private String category;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -85,4 +95,44 @@ public class Products {
     public void setProductStock(int productStock) {
         this.productStock = productStock;
     }
+
+	public String getProductImageUrl() {
+		return productImageUrl;
+	}
+
+	public void setProductImageUrl(String productImageUrl) {
+		this.productImageUrl = productImageUrl;
+	}
+
+	public String getProductColour() {
+		return productColour;
+	}
+
+	public void setProductColour(String productColour) {
+		this.productColour = productColour;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

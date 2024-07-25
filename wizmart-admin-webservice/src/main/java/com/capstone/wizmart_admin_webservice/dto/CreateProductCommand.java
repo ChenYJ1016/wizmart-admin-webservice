@@ -1,4 +1,4 @@
-package com.capstone.wizmart_admin_webservice.model.commands;
+package com.capstone.wizmart_admin_webservice.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +16,16 @@ public class CreateProductCommand {
     
     @Min(value = 0, message = "Product stock must be non-negative")
     private int quantity;
+    
+    private String productImageUrl;
+    
+    private String productColour;
+    
+    private String gender;
+    
+    private String size;
+    
+    private String category;
 
     // Getters and Setters
 

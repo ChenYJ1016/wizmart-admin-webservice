@@ -1,4 +1,4 @@
-package com.capstone.wizmart_admin_webservice.model.commands;
+package com.capstone.wizmart_admin_webservice.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
