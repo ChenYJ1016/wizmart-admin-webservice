@@ -26,7 +26,7 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Stock</th>
-                        <th>Image URL</th>
+                        <th>Image</th>
                         <th>Colour</th>
                         <th>Gender</th>
                         <th>Size</th>
@@ -37,19 +37,25 @@
                 <tbody>
                     <#list products as product>
                     <tr>
-                        <td>${product.productId}</td>
+                        <td>${product.id}</td>
                         <td>${product.productName}</td>
                         <td>${product.productDescription}</td>
                         <td>${product.productPrice}</td>
                         <td>${product.productStock}</td>
-                        <td>${product.productImageUrl}</td>
+                        <td>
+                            <#if product.productImageUrl?has_content>
+                                <img src="${product.productImageUrl}" alt="${product.productName}" style="max-width: 100px;">
+                            <#else>
+                                No image
+                            </#if>
+                        </td>
                         <td>${product.productColour}</td>
                         <td>${product.gender}</td>
                         <td>${product.size}</td>
                         <td>${product.category}</td>
                         <td>
                             <button type="button" onclick="openUpdateModal(
-                                ${product.productId},
+                                ${product.id},
                                 '${product.productName}',
                                 '${product.productDescription}',
                                 ${product.productPrice},
@@ -59,7 +65,7 @@
                                 '${product.gender}',
                                 '${product.size}',
                                 '${product.category}')">Update</button>
-                            <form action="/admin/products/delete/${product.productId}" method="post" style="display:inline;">
+                            <form action="/admin/products/delete/${product.id}" method="post" style="display:inline;">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit">Delete</button>
@@ -79,16 +85,48 @@
                 <form id="updateForm" action="/admin/products/update" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" id="updateProductId" name="productId">
+
+                    <label for="updateName">Name:</label>
                     <input type="text" id="updateName" name="productName" placeholder="Name" required>
-                    <input type="text" id="updateDescription" name="productDescription" placeholder="Description" required>
+                    <br>
+
+                    <label for="updateDescription">Description:</label>
+                    <textarea id="updateDescription" name="productDescription" placeholder="Description" required></textarea>
+                    <br>
+
+                    <label for="updatePrice">Price:</label>
                     <input type="number" id="updatePrice" name="productPrice" placeholder="Price" step="0.01" required>
+                    <br>
+
+                    <label for="updateStock">Stock:</label>
                     <input type="number" id="updateStock" name="productStock" placeholder="Stock" required>
+                    <br>
+
+                    <label for="updateImageUrl">Current Image:</label>
                     <input type="text" id="updateImageUrl" name="productImageUrl" placeholder="Image URL" readonly>
+                    <br>
+
+                    <label for="updateImageFile">New Image:</label>
                     <input type="file" id="updateImageFile" name="productImageFile" accept="image/*" onchange="handleFileChange('updateImageFile', 'updateImageUrl')">
+                    <br>
+
+                    <label for="updateColour">Colour:</label>
                     <input type="text" id="updateColour" name="productColour" placeholder="Colour">
+                    <br>
+
+                    <label for="updateGender">Gender:</label>
                     <input type="text" id="updateGender" name="gender" placeholder="Gender">
+                    <br>
+
+                    <label for="updateSize">Size:</label>
                     <input type="text" id="updateSize" name="size" placeholder="Size">
+                    <br>
+
+                    <label for="updateCategory">Category:</label>
                     <input type="text" id="updateCategory" name="category" placeholder="Category">
+                    <br>
+
                     <button type="submit">Update</button>
                 </form>
             </div>
@@ -99,22 +137,50 @@
             <div class="modal-content">
                 <span class="close" onclick="closeCreateModal()">&times;</span>
                 <h2>Create New Product</h2>
-                <form id="createForm" action="/admin/upload" method="post" enctype="multipart/form-data">
+                <form id="createForm" action="/admin/products/create" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                    <input type="text" name="productName" placeholder="Name" required>
-                    <input type="text" name="productDescription" placeholder="Description" required>
-                    <input type="number" name="productPrice" placeholder="Price" step="0.01" required>
-                    <input type="number" name="productStock" placeholder="Stock" required>
+
+                    <label for="createName">Name:</label>
+                    <input type="text" id="createName" name="productName" placeholder="Name" required>
+                    <br>
+
+                    <label for="createDescription">Description:</label>
+                    <textarea id="createDescription" name="productDescription" placeholder="Description" required></textarea>
+                    <br>
+
+                    <label for="createPrice">Price:</label>
+                    <input type="number" id="createPrice" name="productPrice" placeholder="Price" step="0.01" required>
+                    <br>
+
+                    <label for="createStock">Stock:</label>
+                    <input type="number" id="createStock" name="productStock" placeholder="Stock" required>
+                    <br>
+
+                    <label for="createImageFile">Image:</label>
                     <input type="file" id="createImageFile" name="productImageFile" accept="image/*" required>
-                    <input type="text" name="productColour" placeholder="Colour">
-                    <input type="text" name="gender" placeholder="Gender">
-                    <input type="text" name="size" placeholder="Size">
-                    <input type="text" name="category" placeholder="Category">
+                    <br>
+
+                    <label for="createColour">Colour:</label>
+                    <input type="text" id="createColour" name="productColour" placeholder="Colour">
+                    <br>
+
+                    <label for="createGender">Gender:</label>
+                    <input type="text" id="createGender" name="productGender" placeholder="Gender">
+                    <br>
+
+                    <label for="createSize">Size:</label>
+                    <input type="text" id="createSize" name="size" placeholder="Size">
+                    <br>
+
+                    <label for="createCategory">Category:</label>
+                    <input type="text" id="createCategory" name="category" placeholder="Category">
+                    <br>
+
                     <button type="submit">Create</button>
                 </form>
             </div>
         </div>
-        
+
     </div>
 
     <script>
@@ -127,7 +193,7 @@
         }
 
         function openUpdateModal(productId, name, description, price, stock, imageUrl, colour, gender, size, category) {
-            document.getElementById("updateForm").action = "/admin/products/update/" + productId;
+            document.getElementById("updateProductId").value = productId;
             document.getElementById("updateName").value = name;
             document.getElementById("updateDescription").value = description;
             document.getElementById("updatePrice").value = price;
