@@ -60,30 +60,34 @@ public class ProductEventListener {
 
     private void handleProductUpdatedEvent(String payload) {
         try {
-            // Use regex or a more robust parsing method to extract details from the payload
-            Pattern pattern = Pattern.compile("Product (\\d+) updated with name (.+), description (.+), price (\\d+\\.\\d+), quantity (\\d+)");
-            Matcher matcher = pattern.matcher(payload);
+            // Parse the event payload to extract product details
+        	String[] parts = payload.split(" ");
+        	String productId = parts[1];
+            String productName = parts[5];
+            String productDescription = parts[6];
+            Double productPrice = Double.parseDouble(parts[7]);
+            Integer productQuantity = Integer.parseInt(parts[8]);
+            String productImageUrl = parts[9];
+            String productColour = parts[10];
+            String productGender = parts[11];
+            String productSize = parts[12];
+            String productCategory = parts[13];
 
-            if (matcher.find()) {
-                Long productId = Long.parseLong(matcher.group(1));
-                String productName = matcher.group(2);
-                String productDescription = matcher.group(3);
-                Double productPrice = Double.parseDouble(matcher.group(4));
-                Integer productQuantity = Integer.parseInt(matcher.group(5));
+            // Update the product in the read model 
+            Products product = productRepository.findById(Long.parseLong(productId)).orElseThrow(() -> new RuntimeException("Product not found: " + productId));
+            product.setProductName(productName);
+            product.setProductDescription(productDescription);
+            product.setProductPrice(productPrice);
+            product.setProductQuantity(productQuantity);
+            product.setProductImageUrl(productImageUrl);
+            product.setProductColour(productColour);
+            product.setProductGender(productGender);
+            product.setProductSize(productSize);
+            product.setProductCategory(productCategory);
+            productRepository.save(product);
 
-                // Update the product in the repository
-                Products product = productRepository.findById(productId)
-                        .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
-                product.setProductName(productName);
-                product.setProductDescription(productDescription);
-                product.setProductPrice(productPrice);
-                product.setProductStock(productQuantity);
-                productRepository.save(product);
-
-                logger.info("Product updated: {}", product);
-            } else {
-                logger.warn("Payload format is incorrect for PRODUCT_UPDATED event: {}", payload);
-            }
+            logger.info("Product updated: {}", product);
+   
         } catch (Exception e) {
             logger.error("Error handling PRODUCT_UPDATED event: ", e);
         }
@@ -91,42 +95,38 @@ public class ProductEventListener {
 
     private void handleProductCreatedEvent(String payload) {
         try {
-            // Use regex or a more robust parsing method to extract details from the payload
-            Pattern pattern = Pattern.compile("Product created with name (.+), description (.+), price (\\d+\\.\\d+), quantity (\\d+), colour (.+), gender (.+), size (.+), category (.+), image URL (.+)");
-            Matcher matcher = pattern.matcher(payload);
+            // Parse the event payload to extract product details
+            String[] parts = payload.split(" ");
+            String productName = parts[4];
+            String productDescription = parts[5];
+            Double productPrice = Double.parseDouble(parts[6]);
+            Integer productQuantity = Integer.parseInt(parts[7]);
+            String productImageUrl = parts[8];
+            String productColour = parts[9];
+            String productGender = parts[10];
+            String productSize = parts[11];
+            String productCategory = parts[12];
 
-            if (matcher.find()) {
-                String productName = matcher.group(1);
-                String productDescription = matcher.group(2);
-                Double productPrice = Double.parseDouble(matcher.group(3));
-                Integer productQuantity = Integer.parseInt(matcher.group(4));
-                String productColour = matcher.group(5);
-                String gender = matcher.group(6);
-                String size = matcher.group(7);
-                String category = matcher.group(8);
-                String imageUrl = matcher.group(9);
+            // Create a new product
+            Products newProduct = new Products();
+            newProduct.setProductName(productName);
+            newProduct.setProductDescription(productDescription);
+            newProduct.setProductPrice(productPrice);
+            newProduct.setProductQuantity(productQuantity);
+            newProduct.setProductImageUrl(productImageUrl);
+            newProduct.setProductColour(productColour);
+            newProduct.setProductGender(productGender);
+            newProduct.setProductSize(productSize);
+            newProduct.setProductCategory(productCategory);
 
-                // Create and save the new product
-                Products newProduct = new Products();
-                newProduct.setProductName(productName);
-                newProduct.setProductDescription(productDescription);
-                newProduct.setProductPrice(productPrice);
-                newProduct.setProductStock(productQuantity);
-                newProduct.setProductColour(productColour);
-                newProduct.setGender(gender);
-                newProduct.setSize(size);
-                newProduct.setCategory(category);
-                newProduct.setProductImageUrl(imageUrl);
+            // Save the new product to the repository
+            productRepository.save(newProduct);
 
-                productRepository.save(newProduct);
+            logger.info("Product created: {}", newProduct);
+           }catch(Exception e) {
+               logger.error("Error handling PRODUCT_CREATED event: ", e);
 
-                logger.info("Product created: {}", newProduct);
-            } else {
-                logger.warn("Payload format is incorrect for PRODUCT_CREATED event: {}", payload);
-            }
-        } catch (Exception e) {
-            logger.error("Error handling PRODUCT_CREATED event: ", e);
-        }
+           }
     }
 
     private void handleProductDeletedEvent(String payload) {

@@ -43,7 +43,7 @@ public class ProductCommandHandler {
         // Emit event
         Event event = new Event();
         event.setType("PRODUCT_UPDATED");
-        event.setPayload(String.format("Product %s updated with name %s %s %f %d %s %s %s %s %s", command.getProductId(), command.getName(), command.getDescription(), command.getPrice(), command.getQuantity(), command.getProductImageUrl(), command.getProductColour(), command.getGender(), command.getSize(), command.getCategory()));
+        event.setPayload(String.format("Product %s updated with name %s %s %f %d %s %s %s %s %s", command.getProductId(), command.getProductName(), command.getProductDescription(), command.getProductPrice(), command.getProductQuantity(), command.getProductImageUrl(), command.getProductColour(), command.getProductGender(), command.getProductSize(), command.getProductCategory()));
         eventRepository.save(event);
         
         eventPublisher.publishEvent(event);

@@ -60,7 +60,9 @@ public class ProductController {
 
     @PutMapping("/update/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute UpdateProductCommand command, BindingResult result, Model model) throws IOException {
-        if (result.hasErrors()) {
+    	logger.info("updating....");
+
+    	if (result.hasErrors()) {
             logger.error("Validation errors occurred: {}", result.getAllErrors());
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("products", productQueryService.getAllProducts());

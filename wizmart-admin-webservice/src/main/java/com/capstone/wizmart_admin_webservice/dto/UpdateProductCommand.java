@@ -9,16 +9,16 @@ public class UpdateProductCommand {
     private Long productId;
     
     @NotNull(message = "Product name cannot be null")
-    private String name;
+    private String productName;
     
 	@NotNull(message = "Product description cannot be null")
-    private String description;
+    private String productDescription;
     
     @Min(value = 0, message = "Product price must be non-negative")
-    private double price;
+    private double productPrice;
     
     @Min(value = 0, message = "Product stock must be non-negative")
-    private int quantity;
+    private int productQuantity;
     
     private String productImageUrl;
 
@@ -28,11 +28,11 @@ public class UpdateProductCommand {
     private String productColour;
     
     @NotNull(message = "Target gender for the product must be valid")
-    private String gender;
+    private String productGender;
     
-    private String size;
+    private String productSize;
     
-    private String category;
+    private String productCategory;
 
     // Getters and Setters
 
@@ -44,36 +44,36 @@ public class UpdateProductCommand {
 		this.productId = productId;
 	}
 
-	public String getName() {
-        return name;
+	public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
-    public double getPrice() {
-        return price;
+    public double getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setProductPrice(double price) {
+        this.productPrice = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getProductQuantity() {
+        return productQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setProductQuantity(int quantity) {
+        this.productQuantity = quantity;
     }
 
 
@@ -85,28 +85,28 @@ public class UpdateProductCommand {
 		this.productColour = productColour;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getProductGender() {
+		return productGender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setProductGender(String productGender) {
+		this.productGender = productGender;
 	}
 
-	public String getSize() {
-		return size;
+	public String getProductSize() {
+		return productSize;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setProductSize(String size) {
+		this.productSize = size;
 	}
 
-	public String getCategory() {
-		return category;
+	public String getProductCategory() {
+		return productCategory;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setProductCategory(String category) {
+		this.productCategory = category;
 	}
 
 	public MultipartFile getProductImageFile() {

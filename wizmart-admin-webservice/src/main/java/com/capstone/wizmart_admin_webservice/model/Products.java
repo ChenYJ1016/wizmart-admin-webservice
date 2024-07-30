@@ -25,11 +25,11 @@ public class Products {
     
     private String productColour;
     
-    private String gender;
+    private String productGender;
     
-    private String size;
+    private String productSize;
     
-    private String category;
+    private String productCategory;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -37,7 +37,7 @@ public class Products {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    private int productStock;
+    private int productQuantity;
 
     // Getters and Setters
     public Long getProductId() {
@@ -88,12 +88,12 @@ public class Products {
         this.updatedAt = updatedAt;
     }
 
-    public int getProductStock() {
-        return productStock;
+    public int getProductQuantity() {
+        return productQuantity;
     }
 
-    public void setProductStock(int productStock) {
-        this.productStock = productStock;
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
     }
 
 	public String getProductImageUrl() {
@@ -112,27 +112,32 @@ public class Products {
 		this.productColour = productColour;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getProductGender() {
+		return productGender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setProductGender(String productGender) {
+		this.productGender = productGender;
 	}
 
-	public String getSize() {
-		return size;
+	public String getProductSize() {
+		return productSize;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setProductSize(String productSize) {
+		this.productSize = productSize;
 	}
 
-	public String getCategory() {
-		return category;
+	public String getProductCategory() {
+		return productCategory;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setProductCategory(String productCategory) {
+		this.productCategory = productCategory;
 	}
+
+	
+
+
+
 }

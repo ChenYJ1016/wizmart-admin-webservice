@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 import com.capstone.wizmart_admin_webservice.handlers.CustomLogoutHandler;
@@ -36,10 +37,13 @@ public class SecurityConfiguration {
         requestCache.setMatchingRequestParameterName("continue");
 
         http
+            .csrf(csrf -> csrf 
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            )
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/admin/**").authenticated()
-                    .requestMatchers("static/**").permitAll() 
+                    .requestMatchers("static/**").permitAll()
             )
             .oauth2Login(oauth2Login ->
                 oauth2Login

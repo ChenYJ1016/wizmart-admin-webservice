@@ -25,7 +25,7 @@
                         <th>Name</th>
                         <th>Description</th>
                         <th>Price</th>
-                        <th>Stock</th>
+                        <th>Quantity</th>
                         <th>Image</th>
                         <th>Colour</th>
                         <th>Gender</th>
@@ -37,35 +37,35 @@
                 <tbody>
                     <#list products as product>
                     <tr>
-                        <td>${product.id}</td>
+                        <td>${product.productId}</td>
                         <td>${product.productName}</td>
                         <td>${product.productDescription}</td>
                         <td>${product.productPrice}</td>
-                        <td>${product.productStock}</td>
+                        <td>${product.productQuantity}</td>
                         <td>
                             <#if product.productImageUrl?has_content>
-                                <img src="${product.productImageUrl}" alt="${product.productName}" style="max-width: 100px;">
+                                <img src="${product.productImageUrl}" style="max-width: 100px;">
                             <#else>
                                 No image
                             </#if>
                         </td>
                         <td>${product.productColour}</td>
-                        <td>${product.gender}</td>
-                        <td>${product.size}</td>
-                        <td>${product.category}</td>
+                        <td>${product.productGender}</td>
+                        <td>${product.productSize}</td>
+                        <td>${product.productCategory}</td>
                         <td>
                             <button type="button" onclick="openUpdateModal(
-                                ${product.id},
+                                ${product.productId},
                                 '${product.productName}',
                                 '${product.productDescription}',
                                 ${product.productPrice},
-                                ${product.productStock},
+                                ${product.productQuantity},
                                 '${product.productImageUrl}',
                                 '${product.productColour}',
-                                '${product.gender}',
-                                '${product.size}',
-                                '${product.category}')">Update</button>
-                            <form action="/admin/products/delete/${product.id}" method="post" style="display:inline;">
+                                '${product.productGender}',
+                                '${product.productSize}',
+                                '${product.productCategory}')">Update</button>
+                            <form action="/admin/products/delete/${product.productId}" method="post" style="display:inline;">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit">Delete</button>
@@ -82,49 +82,49 @@
             <div class="modal-content">
                 <span class="close" onclick="closeUpdateModal()">&times;</span>
                 <h2>Update Product</h2>
-                <form id="updateForm" action="/admin/products/update" method="post" enctype="multipart/form-data">
+                <form id="updateForm" action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" id="updateProductId" name="productId">
 
-                    <label for="updateName">Name:</label>
-                    <input type="text" id="updateName" name="productName" placeholder="Name" required>
+                    <label for="updateProductName">Name:</label>
+                    <input type="text" id="updateProductName" name="productName" placeholder="Name" required>
                     <br>
 
-                    <label for="updateDescription">Description:</label>
-                    <textarea id="updateDescription" name="productDescription" placeholder="Description" required></textarea>
+                    <label for="updateProductDescription">Description:</label>
+                    <textarea id="updateProductDescription" name="productDescription" placeholder="Description" required></textarea>
                     <br>
 
-                    <label for="updatePrice">Price:</label>
-                    <input type="number" id="updatePrice" name="productPrice" placeholder="Price" step="0.01" required>
+                    <label for="updateProductPrice">Price:</label>
+                    <input type="number" id="updateProductPrice" name="productPrice" placeholder="Price" step="0.01" required>
                     <br>
 
-                    <label for="updateStock">Stock:</label>
-                    <input type="number" id="updateStock" name="productStock" placeholder="Stock" required>
+                    <label for="updateProductQuantity">Stock:</label>
+                    <input type="number" id="updateProductQuantity" name="productQuantity" placeholder="Stock" required>
                     <br>
 
-                    <label for="updateImageUrl">Current Image:</label>
-                    <input type="text" id="updateImageUrl" name="productImageUrl" placeholder="Image URL" readonly>
+                    <label for="updateProductImageUrl">Current Image:</label>
+                    <input type="text" id="updateProductImageUrl" name="productImageUrl" placeholder="Image URL" readonly>
                     <br>
 
-                    <label for="updateImageFile">New Image:</label>
-                    <input type="file" id="updateImageFile" name="productImageFile" accept="image/*" onchange="handleFileChange('updateImageFile', 'updateImageUrl')">
+                    <label for="updateProductImageFile">New Image:</label>
+                    <input type="file" id="updateProductImageFile" name="productImageFile" accept="image/*" onchange="handleFileChange('updateProductImageFile', 'updateProductImageUrl')">
                     <br>
 
-                    <label for="updateColour">Colour:</label>
-                    <input type="text" id="updateColour" name="productColour" placeholder="Colour">
+                    <label for="updateProductColour">Colour:</label>
+                    <input type="text" id="updateProductColour" name="productColour" placeholder="Colour">
                     <br>
 
-                    <label for="updateGender">Gender:</label>
-                    <input type="text" id="updateGender" name="gender" placeholder="Gender">
+                    <label for="updateProductGender">Gender:</label>
+                    <input type="text" id="updateProductGender" name="productGender" placeholder="Gender">
                     <br>
 
-                    <label for="updateSize">Size:</label>
-                    <input type="text" id="updateSize" name="size" placeholder="Size">
+                    <label for="updateProductSize">Size:</label>
+                    <input type="text" id="updateProductSize" name="productSize" placeholder="Size">
                     <br>
 
-                    <label for="updateCategory">Category:</label>
-                    <input type="text" id="updateCategory" name="category" placeholder="Category">
+                    <label for="updateProductCategory">Category:</label>
+                    <input type="text" id="updateProductCategory" name="productCategory" placeholder="Category">
                     <br>
 
                     <button type="submit">Update</button>
@@ -153,11 +153,11 @@
                     <br>
 
                     <label for="createStock">Stock:</label>
-                    <input type="number" id="createStock" name="productStock" placeholder="Stock" required>
+                    <input type="number" id="createStock" name="productQuantity" placeholder="Stock" required>
                     <br>
 
-                    <label for="createImageFile">Image:</label>
-                    <input type="file" id="createImageFile" name="productImageFile" accept="image/*" required>
+                    <label for="createImage">Image:</label>
+                    <input type="file" id="createImage" name="productImageFile" accept="image/*" required>
                     <br>
 
                     <label for="createColour">Colour:</label>
@@ -169,40 +169,32 @@
                     <br>
 
                     <label for="createSize">Size:</label>
-                    <input type="text" id="createSize" name="size" placeholder="Size">
+                    <input type="text" id="createSize" name="productSize" placeholder="Size">
                     <br>
 
                     <label for="createCategory">Category:</label>
-                    <input type="text" id="createCategory" name="category" placeholder="Category">
+                    <input type="text" id="createCategory" name="productCategory" placeholder="Category">
                     <br>
 
                     <button type="submit">Create</button>
                 </form>
             </div>
         </div>
-
     </div>
 
     <script>
-        function handleFileChange(fileInputId, imageUrlInputId) {
-            const fileInput = document.getElementById(fileInputId);
-            const file = fileInput.files[0];
-            if (file) {
-                document.getElementById(imageUrlInputId).value = file.name;
-            }
-        }
-
-        function openUpdateModal(productId, name, description, price, stock, imageUrl, colour, gender, size, category) {
+        function openUpdateModal(productId, productName, productDescription, productPrice, productQuantity, productImageUrl, productColour, productGender, productSize, productCategory) {
+            document.getElementById('updateForm').action = '/admin/products/update/' + productId;
             document.getElementById("updateProductId").value = productId;
-            document.getElementById("updateName").value = name;
-            document.getElementById("updateDescription").value = description;
-            document.getElementById("updatePrice").value = price;
-            document.getElementById("updateStock").value = stock;
-            document.getElementById("updateImageUrl").value = imageUrl;
-            document.getElementById("updateColour").value = colour;
-            document.getElementById("updateGender").value = gender;
-            document.getElementById("updateSize").value = size;
-            document.getElementById("updateCategory").value = category;
+            document.getElementById("updateProductName").value = productName;
+            document.getElementById("updateProductDescription").value = productDescription;
+            document.getElementById("updateProductPrice").value = productPrice;
+            document.getElementById("updateProductQuantity").value = productQuantity;
+            document.getElementById("updateProductImageUrl").value = productImageUrl;
+            document.getElementById("updateProductColour").value = productColour;
+            document.getElementById("updateProductGender").value = productGender;
+            document.getElementById("updateProductSize").value = productSize;
+            document.getElementById("updateProductCategory").value = productCategory;
             document.getElementById("updateModal").style.display = "block";
         }
 
@@ -216,6 +208,27 @@
 
         function closeCreateModal() {
             document.getElementById("createModal").style.display = "none";
+        }
+
+        function handleFileChange(fileInputId, urlInputId) {
+            var fileInput = document.getElementById(fileInputId);
+            var urlInput = document.getElementById(urlInputId);
+            if (fileInput.files && fileInput.files[0]) {
+                urlInput.value = URL.createObjectURL(fileInput.files[0]);
+            } else {
+                urlInput.value = '';
+            }
+        }
+
+        window.onclick = function(event) {
+            var updateModal = document.getElementById("updateModal");
+            var createModal = document.getElementById("createModal");
+            if (event.target == updateModal) {
+                updateModal.style.display = "none";
+            }
+            if (event.target == createModal) {
+                createModal.style.display = "none";
+            }
         }
     </script>
 </body>
