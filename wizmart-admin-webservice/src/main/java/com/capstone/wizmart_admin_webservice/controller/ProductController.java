@@ -3,6 +3,7 @@ package com.capstone.wizmart_admin_webservice.controller;
 import com.capstone.wizmart_admin_webservice.dto.CreateProductCommand;
 import com.capstone.wizmart_admin_webservice.dto.DeleteProductCommand;
 import com.capstone.wizmart_admin_webservice.dto.UpdateProductCommand;
+import com.capstone.wizmart_admin_webservice.model.Products;
 import com.capstone.wizmart_admin_webservice.services.ProductCommandService;
 import com.capstone.wizmart_admin_webservice.services.ProductQueryService;
 import com.capstone.wizmart_admin_webservice.services.aws.S3Service;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -96,4 +98,15 @@ public class ProductController {
             return "error";
         }
     }
+    
+//    @GetMapping("/getImageUrl")
+//    public String getImageUrl(@RequestParam("fileName") String fileName, Model model) {
+//        // Generate a presigned URL that is valid for 1 hour (3600000 milliseconds)
+//        String presignedUrl = s3Service.generatePresignedUrl(fileName, 3600000);
+//        List<Products> products = productQueryService.getAllProducts();
+//
+//        model.addAttribute("products", products);       
+//        model.addAttribute("imageUrl", presignedUrl);
+//        return "image"; 
+//    }
 }

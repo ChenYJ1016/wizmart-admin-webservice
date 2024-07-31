@@ -104,7 +104,7 @@
                     <br>
 
                     <label for="updateProductImageUrl">Current Image:</label>
-                    <input type="text" id="updateProductImageUrl" name="productImageUrl" placeholder="Image URL" readonly>
+                    <input type="hidden" id="updateProductImageUrl" name="productImageUrl" placeholder="Image URL" readonly>
                     <br>
 
                     <label for="updateProductImageFile">New Image:</label>
@@ -185,49 +185,46 @@
     <script>
         function openUpdateModal(productId, productName, productDescription, productPrice, productQuantity, productImageUrl, productColour, productGender, productSize, productCategory) {
             document.getElementById('updateForm').action = '/admin/products/update/' + productId;
-            document.getElementById("updateProductId").value = productId;
-            document.getElementById("updateProductName").value = productName;
-            document.getElementById("updateProductDescription").value = productDescription;
-            document.getElementById("updateProductPrice").value = productPrice;
-            document.getElementById("updateProductQuantity").value = productQuantity;
-            document.getElementById("updateProductImageUrl").value = productImageUrl;
-            document.getElementById("updateProductColour").value = productColour;
-            document.getElementById("updateProductGender").value = productGender;
-            document.getElementById("updateProductSize").value = productSize;
-            document.getElementById("updateProductCategory").value = productCategory;
-            document.getElementById("updateModal").style.display = "block";
+            document.getElementById('updateProductId').value = productId;
+            document.getElementById('updateProductName').value = productName;
+            document.getElementById('updateProductDescription').value = productDescription;
+            document.getElementById('updateProductPrice').value = productPrice;
+            document.getElementById('updateProductQuantity').value = productQuantity;
+            document.getElementById('updateProductImageUrl').value = productImageUrl;
+            document.getElementById('updateProductColour').value = productColour;
+            document.getElementById('updateProductGender').value = productGender;
+            document.getElementById('updateProductSize').value = productSize;
+            document.getElementById('updateProductCategory').value = productCategory;
+
+            document.getElementById('updateModal').style.display = 'block';
         }
 
         function closeUpdateModal() {
-            document.getElementById("updateModal").style.display = "none";
+            document.getElementById('updateModal').style.display = 'none';
         }
 
         function openCreateModal() {
-            document.getElementById("createModal").style.display = "block";
+            document.getElementById('createForm').reset();
+            document.getElementById('createModal').style.display = 'block';
         }
 
         function closeCreateModal() {
-            document.getElementById("createModal").style.display = "none";
+            document.getElementById('createModal').style.display = 'none';
         }
 
         function handleFileChange(fileInputId, urlInputId) {
             var fileInput = document.getElementById(fileInputId);
             var urlInput = document.getElementById(urlInputId);
-            if (fileInput.files && fileInput.files[0]) {
-                urlInput.value = URL.createObjectURL(fileInput.files[0]);
+
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    urlInput.value = reader.result;
+                };
+                reader.readAsDataURL(file);
             } else {
                 urlInput.value = '';
-            }
-        }
-
-        window.onclick = function(event) {
-            var updateModal = document.getElementById("updateModal");
-            var createModal = document.getElementById("createModal");
-            if (event.target == updateModal) {
-                updateModal.style.display = "none";
-            }
-            if (event.target == createModal) {
-                createModal.style.display = "none";
             }
         }
     </script>

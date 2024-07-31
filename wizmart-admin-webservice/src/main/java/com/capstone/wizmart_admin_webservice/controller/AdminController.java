@@ -30,6 +30,7 @@ import com.capstone.wizmart_admin_webservice.model.Products;
 import com.capstone.wizmart_admin_webservice.properties.Properties;
 import com.capstone.wizmart_admin_webservice.services.ProductCommandService;
 import com.capstone.wizmart_admin_webservice.services.ProductQueryService;
+import com.capstone.wizmart_admin_webservice.services.aws.S3Service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,6 +55,9 @@ public class AdminController {
 
     @Autowired
     private ProductCommandService productCommandService;
+    
+    @Autowired
+    private S3Service s3Service;
 
     @GetMapping
     public String redirectToAdmin() {
@@ -69,6 +73,12 @@ public class AdminController {
     public String adminPage(Model model) {
         try {
             List<Products> products = productQueryService.getAllProducts();
+            for (Products product : products) {
+                if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+                    String presignedUrl = s3Service.generatePresignedUrl(product.getProductImageUrl(), 3600000);
+                    product.setProductImageUrl(presignedUrl);  
+                }
+            }
             model.addAttribute("products", products);
             return "admin";
         } catch (Exception e) {
