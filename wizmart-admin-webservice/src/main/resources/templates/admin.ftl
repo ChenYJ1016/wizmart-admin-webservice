@@ -103,7 +103,6 @@
                     <input type="number" id="updateProductQuantity" name="productQuantity" placeholder="Stock" required>
                     <br>
 
-                    <label for="updateProductImageUrl">Current Image:</label>
                     <input type="hidden" id="updateProductImageUrl" name="productImageUrl" placeholder="Image URL" readonly>
                     <br>
 

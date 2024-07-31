@@ -99,14 +99,4 @@ public class ProductController {
         }
     }
     
-//    @GetMapping("/getImageUrl")
-//    public String getImageUrl(@RequestParam("fileName") String fileName, Model model) {
-//        // Generate a presigned URL that is valid for 1 hour (3600000 milliseconds)
-//        String presignedUrl = s3Service.generatePresignedUrl(fileName, 3600000);
-//        List<Products> products = productQueryService.getAllProducts();
-//
-//        model.addAttribute("products", products);       
-//        model.addAttribute("imageUrl", presignedUrl);
-//        return "image"; 
-//    }
 }
