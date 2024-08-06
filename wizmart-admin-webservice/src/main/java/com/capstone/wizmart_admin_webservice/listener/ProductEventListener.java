@@ -66,7 +66,7 @@ public class ProductEventListener {
             String productName = parts[5];
             String productDescription = parts[6];
             Double productPrice = Double.parseDouble(parts[7]);
-            Integer productQuantity = Integer.parseInt(parts[8]);
+            int productQuantity = Integer.parseInt(parts[8]);
             String productImageUrl = parts[9];
             String productColour = parts[10];
             String productGender = parts[11];
@@ -86,8 +86,7 @@ public class ProductEventListener {
             product.setProductCategory(productCategory);
             productRepository.save(product);
 
-            logger.info("Product updated: {}", product);
-   
+            logger.info("Product updated: {} {} {} {} {} {} {} {} {}", product.getProductName(), product.getProductDescription(), product.getProductPrice(), product.getProductQuantity(), product.getProductImageUrl(), product.getProductColour(), product.getProductGender(), product.getProductSize(), product.getProductCategory());   
         } catch (Exception e) {
             logger.error("Error handling PRODUCT_UPDATED event: ", e);
         }
