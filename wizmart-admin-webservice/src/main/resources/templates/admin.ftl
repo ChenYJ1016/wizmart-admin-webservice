@@ -30,23 +30,73 @@
                     data-product-gender="${product.productGender?html}"
                     data-product-size="${product.productSize?html}"
                     data-product-category="${product.productCategory?html}"
-                    onclick="openUpdateModal(this)">
+                    onclick="openViewModal(this)">
                     <img src="${product.productImageUrl}" alt="${product.productName}">
                     <p>${product.productName}</p>
-                    
-                      <button type="submit">Update</button>
-                 	<form action="/admin/products/delete/${product.productId}" method="post" style="display:inline;">
-                 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit">Delete</button>
-                    </form>
+	                	<button onclick="openUpdateModal(this.parentElement)" type="update">Update</button>
+	                 	<form action="/admin/products/delete/${product.productId}" method="post" style="display:inline;">
+	                 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+	                        <input type="hidden" name="_method" value="DELETE">
+	                        <button type="delete">Delete</button>
+	                    </form>
+                  </div>
+                 	
                 </div>
+                
                 </#list>
             </div>
         </div>
 
         <button class="add-product-button" onclick="openCreateModal()">Add Product</button>
     </div>
+    
+    <!-- View Product Modal -->
+	<div id="viewModal" class="modal">
+	    <div class="modal-content">
+	        <span class="close" onclick="closeViewModal()">&times;</span>
+	        <h2>View Product</h2>
+	        <div class="form-group">
+	            <label for="viewProductName">Name:</label>
+	            <p id="viewProductName"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductDescription">Description:</label>
+	            <p id="viewProductDescription"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductPrice">Price:</label>
+	            <p id="viewProductPrice"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductQuantity">Stock:</label>
+	            <p id="viewProductQuantity"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductColour">Colour:</label>
+	            <p id="viewProductColour"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductGender">Gender:</label>
+	            <p id="viewProductGender"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductSize">Size:</label>
+	            <p id="viewProductSize"></p>
+	        </div>
+	
+	        <div class="form-group">
+	            <label for="viewProductCategory">Category:</label>
+	            <p id="viewProductCategory"></p>
+	        </div>
+	    </div>
+	</div>
+    
 
     <!-- Update Product Modal -->
     <div id="updateModal" class="modal">
@@ -169,6 +219,33 @@
     </div>
 
     <script>
+    	
+    	function openViewModal(productCard) {
+		    const productName = productCard.getAttribute('data-product-name');
+		    const productDescription = productCard.getAttribute('data-product-description');
+		    const productPrice = productCard.getAttribute('data-product-price');
+		    const productQuantity = productCard.getAttribute('data-product-quantity');
+		    const productColour = productCard.getAttribute('data-product-colour');
+		    const productGender = productCard.getAttribute('data-product-gender');
+		    const productSize = productCard.getAttribute('data-product-size');
+		    const productCategory = productCard.getAttribute('data-product-category');
+		
+		    document.getElementById('viewProductName').innerText = productName;
+		    document.getElementById('viewProductDescription').innerText = productDescription;
+		    document.getElementById('viewProductPrice').innerText = productPrice;
+		    document.getElementById('viewProductQuantity').innerText = productQuantity;
+		    document.getElementById('viewProductColour').innerText = productColour;
+		    document.getElementById('viewProductGender').innerText = productGender;
+		    document.getElementById('viewProductSize').innerText = productSize;
+		    document.getElementById('viewProductCategory').innerText = productCategory;
+		
+		    document.getElementById('viewModal').style.display = 'block';
+		}
+		
+		function closeViewModal() {
+		    document.getElementById('viewModal').style.display = 'none';
+		}
+    	
         function openUpdateModal(productCard) {
             const productId = productCard.getAttribute('data-product-id');
             const productName = productCard.getAttribute('data-product-name');
@@ -205,9 +282,7 @@
 
         function closeCreateModal() {
             document.getElementById('createModal').style.display = 'none';
-        }
-
-     
+        }     
 
     </script>
 </body>
