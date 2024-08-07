@@ -33,6 +33,13 @@
                     onclick="openUpdateModal(this)">
                     <img src="${product.productImageUrl}" alt="${product.productName}">
                     <p>${product.productName}</p>
+                    
+                      <button type="submit">Update</button>
+                 	<form action="/admin/products/delete/${product.productId}" method="post" style="display:inline;">
+                 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Delete</button>
+                    </form>
                 </div>
                 </#list>
             </div>
