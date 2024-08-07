@@ -15,8 +15,12 @@
     </div>
 
     <div class="container">
-        <h1>Product List</h1>
-        <div class="product-container">
+		<div class="header-container">
+        	<h1>Product List</h1>
+        	<button class="add-product-button" onclick="openCreateModal()">Add Product</button>
+    	</div>        
+    	
+    	<div class="product-container">
             <div class="product-card-container">
                 <#list products as product>
                 <div class="product-card"
@@ -46,8 +50,6 @@
                 </#list>
             </div>
         </div>
-
-        <button class="add-product-button" onclick="openCreateModal()">Add Product</button>
     </div>
     
     <!-- View Product Modal -->
