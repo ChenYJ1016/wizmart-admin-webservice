@@ -52,9 +52,6 @@ public class AdminController {
 
     @Autowired
     private ProductQueryService productQueryService;
-
-    @Autowired
-    private ProductCommandService productCommandService;
     
     @Autowired
     private S3Service s3Service;
@@ -83,6 +80,16 @@ public class AdminController {
             return "admin";
         } catch (Exception e) {
             logger.error("Error in adminPage", e);
+            return "error"; 
+        }
+    }
+    
+    @GetMapping("/orders")
+    public String viewOrdersPage(Model model) {
+        try {
+            return "orders";
+        } catch (Exception e) {
+            logger.error("Error in ordersPage", e);
             return "error"; 
         }
     }
