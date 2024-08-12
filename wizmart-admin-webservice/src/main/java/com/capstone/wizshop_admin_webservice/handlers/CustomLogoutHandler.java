@@ -1,4 +1,4 @@
-package com.capstone.wizmart_admin_webservice.handlers;
+package com.capstone.wizshop_admin_webservice.handlers;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;

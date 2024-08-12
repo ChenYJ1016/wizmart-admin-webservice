@@ -35,18 +35,7 @@
         	<url>https://repo.maven.apache.org/maven2</url>
     	</repository>
 	</repositories>
-
 	<dependencies>
-		<!--<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-rest</artifactId>
-		    <exclusions>
-		        <exclusion>
-		            <groupId>org.springframework.hateoas</groupId>
-		            <artifactId>spring-hateoas</artifactId>
-		        </exclusion>
-		    </exclusions>
-		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
@@ -111,6 +100,12 @@
     		<artifactId>aws-java-sdk-cognitoidp</artifactId>
     		<version>1.12.745</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
+		<dependency>
+		    <groupId>software.amazon.awssdk</groupId>
+		    <artifactId>s3</artifactId>
+		    <version>2.26.21</version>
+		</dependency>
 		<dependency>
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -142,6 +137,11 @@
 		    <groupId>org.hibernate.orm</groupId>
 		    <artifactId>hibernate-core</artifactId>
 		    <version>6.5.2.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
 		</dependency>
 	</dependencies>
 
