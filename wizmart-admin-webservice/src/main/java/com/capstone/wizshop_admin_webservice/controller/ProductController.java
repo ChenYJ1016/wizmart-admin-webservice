@@ -62,19 +62,26 @@ public class ProductController {
 
     @PutMapping("/update/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute UpdateProductCommand command, BindingResult result, Model model) throws IOException {
-    	logger.info("updating....");
+        logger.info("Updating product...");
 
-    	if (result.hasErrors()) {
+        if (result.hasErrors()) {
             logger.error("Validation errors occurred: {}", result.getAllErrors());
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("products", productQueryService.getAllProducts());
             return "admin";
         }
+
         try {
+            // Retrieve the existing product to get the current image URL
+            Products existingProduct = productQueryService.getProductById(productId);
+            String existingImageUrl = existingProduct.getProductImageUrl();
+
             // Handle image file upload
             if (command.getProductImageFile() != null && !command.getProductImageFile().isEmpty()) {
-                String imageUrl = s3Service.uploadFile(command.getProductImageFile());
-                command.setProductImageUrl(imageUrl);
+                String newImageUrl = s3Service.uploadFile(command.getProductImageFile());
+                command.setProductImageUrl(newImageUrl);
+            } else {
+                command.setProductImageUrl(existingImageUrl);
             }
 
             command.setProductId(productId);
@@ -86,10 +93,19 @@ public class ProductController {
         }
     }
 
+
     @DeleteMapping("/delete/{productId}")
-    public String deleteProduct(@PathVariable("productId") Long productId) {
-        try {
-            DeleteProductCommand command = new DeleteProductCommand();
+    public String deleteProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute DeleteProductCommand command, BindingResult result, Model model) {
+    	logger.info("Deleting product...");
+
+        if (result.hasErrors()) {
+            logger.error("Validation errors occurred: {}", result.getAllErrors());
+            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("products", productQueryService.getAllProducts());
+            return "admin";
+        }
+    	
+    	try {
             command.setProductId(productId);
             productCommandService.deleteProduct(command);
             return "redirect:/admin/";

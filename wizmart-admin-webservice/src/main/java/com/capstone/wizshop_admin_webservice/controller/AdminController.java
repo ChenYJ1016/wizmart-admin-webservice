@@ -70,7 +70,7 @@ public class AdminController {
     }
 
     @GetMapping("/")
-    public String adminPage(Model model) {
+    public String viewAdminPage(Model model) {
         try {
             List<Products> products = productQueryService.getAllProducts();
             for (Products product : products) {

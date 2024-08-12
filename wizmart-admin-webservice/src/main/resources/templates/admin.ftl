@@ -122,12 +122,12 @@
 
                 <div class="form-group">
                     <label for="updateProductPrice">Price:</label>
-                    <input type="number" id="updateProductPrice" name="productPrice" step="0.01" required>
+                    <input type="number" id="updateProductPrice" name="productPrice" step="0.01" min="0" required>
                 </div>
 
                 <div class="form-group">
                     <label for="updateProductQuantity">Stock:</label>
-                    <input type="number" id="updateProductQuantity" name="productQuantity" required>
+                    <input type="number" id="updateProductQuantity" name="productQuantity" min="0" required>
                 </div>
 
                 <div class="form-group">
@@ -182,12 +182,12 @@
 
                 <div class="form-group">
                     <label for="createPrice">Price:</label>
-                    <input type="number" id="createPrice" name="productPrice" step="0.01" required>
+                    <input type="number" id="createPrice" name="productPrice" step="0.01" min="0" required>
                 </div>
 
                 <div class="form-group">
                     <label for="createStock">Stock:</label>
-                    <input type="number" id="createStock" name="productQuantity" required>
+                    <input type="number" id="createStock" name="productQuantity" min="0" required>
                 </div>
 
                 <div class="form-group">

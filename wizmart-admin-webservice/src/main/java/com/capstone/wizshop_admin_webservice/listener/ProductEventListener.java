@@ -29,7 +29,7 @@ public class ProductEventListener {
     private EventRepository eventRepository;
 
     @Autowired
-    private ObjectMapper objectMapper; // Inject ObjectMapper
+    private ObjectMapper objectMapper;
 
     @EventListener
     public void onApplicationEvent(Event event) {
@@ -59,7 +59,6 @@ public class ProductEventListener {
                     break;
             }
 
-            // Optionally, save the event to the database for auditing or other purposes
             eventRepository.save(event);
         } catch (Exception e) {
             logger.error("Error handling event: ", e);
@@ -75,14 +74,17 @@ public class ProductEventListener {
             product.setProductDescription(payload.getProductDescription());
             product.setProductPrice(payload.getProductPrice());
             product.setProductQuantity(payload.getProductQuantity());
-            product.setProductImageUrl(payload.getProductImageFileName()); // Update to use file name
+            product.setProductImageUrl(payload.getProductImageFileName()); 
             product.setProductColour(payload.getProductColour());
             product.setProductGender(payload.getProductGender());
             product.setProductSize(payload.getProductSize());
             product.setProductCategory(payload.getProductCategory());
             productRepository.save(product);
 
-            logger.info("Product updated: {} {} {} {} {} {} {} {} {}", product.getProductName(), product.getProductDescription(), product.getProductPrice(), product.getProductQuantity(), product.getProductImageUrl(), product.getProductColour(), product.getProductGender(), product.getProductSize(), product.getProductCategory());
+            logger.info("Product updated: {} {} {} {} {} {} {} {} {}", product.getProductName(), product.getProductDescription(), 
+            		product.getProductPrice(), product.getProductQuantity(), product.getProductImageUrl(), product.getProductColour(), 
+            		product.getProductGender(), product.getProductSize(), product.getProductCategory());
+            
         } catch (Exception e) {
             logger.error("Error handling PRODUCT_UPDATED event: ", e);
         }
@@ -96,13 +98,12 @@ public class ProductEventListener {
             newProduct.setProductDescription(payload.getProductDescription());
             newProduct.setProductPrice(payload.getProductPrice());
             newProduct.setProductQuantity(payload.getProductQuantity());
-            newProduct.setProductImageUrl(payload.getProductImageFileName()); // Update to use file name
+            newProduct.setProductImageUrl(payload.getProductImageFileName()); 
             newProduct.setProductColour(payload.getProductColour());
             newProduct.setProductGender(payload.getProductGender());
             newProduct.setProductSize(payload.getProductSize());
             newProduct.setProductCategory(payload.getProductCategory());
 
-            // Save the new product to the repository
             productRepository.save(newProduct);
 
             logger.info("Product created: {}", newProduct);
