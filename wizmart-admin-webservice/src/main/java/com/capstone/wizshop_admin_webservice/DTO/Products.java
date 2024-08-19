@@ -1,4 +1,4 @@
-package com.capstone.wizshop_admin_webservice.model;
+package com.capstone.wizshop_admin_webservice.DTO;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

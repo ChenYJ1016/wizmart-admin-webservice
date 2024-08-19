@@ -14,6 +14,9 @@ public class Properties {
 	 
 	 @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
 	 private String clientId;
+	 
+	 @Value("${wizshop.common.repo.url}")
+	 private String commonRepoUrl;
 
 	 public String getLogoutUrl() {
         return logoutUrl;
@@ -25,5 +28,9 @@ public class Properties {
 	 
 	 public String getClientId() {
 		 return clientId;
+	 }
+	 
+	 public String getCommonRepoUrl() {
+		 return commonRepoUrl;
 	 }
 }

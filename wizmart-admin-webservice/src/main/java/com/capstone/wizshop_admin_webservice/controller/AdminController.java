@@ -5,6 +5,12 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -21,17 +27,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import com.capstone.wizshop_admin_webservice.dto.CreateProductCommand;
-import com.capstone.wizshop_admin_webservice.dto.DeleteProductCommand;
-import com.capstone.wizshop_admin_webservice.dto.UpdateProductCommand;
-import com.capstone.wizshop_admin_webservice.handlers.ProductCommandHandler;
-import com.capstone.wizshop_admin_webservice.model.Products;
+import com.capstone.wizshop_admin_webservice.DTO.CreateProductCommand;
+import com.capstone.wizshop_admin_webservice.DTO.Products;
+import com.capstone.wizshop_admin_webservice.DTO.UpdateProductCommand;
+import com.capstone.wizshop_admin_webservice.Services.Aws.AdminS3Service;
 import com.capstone.wizshop_admin_webservice.properties.Properties;
-import com.capstone.wizshop_admin_webservice.services.ProductCommandService;
-import com.capstone.wizshop_admin_webservice.services.ProductQueryService;
-import com.capstone.wizshop_admin_webservice.services.aws.S3Service;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -49,41 +52,126 @@ public class AdminController {
 
     @Autowired
     private Properties properties;
-
-    @Autowired
-    private ProductQueryService productQueryService;
-
-    @Autowired
-    private ProductCommandService productCommandService;
     
     @Autowired
-    private S3Service s3Service;
+    private AdminS3Service s3Service;
+    
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping
     public String redirectToAdmin() {
-        try {
+//        try {
             return "redirect:/admin/";
-        } catch (Exception e) {
-            logger.error("Error in redirectToAdmin", e);
-            return "error"; 
-        }
+//        } catch (Exception e) {
+//            logger.error("Error in redirectToAdmin", e);
+//            return "error"; 
+//        }
     }
 
     @GetMapping("/")
     public String viewAdminPage(Model model) {
-        try {
-            List<Products> products = productQueryService.getAllProducts();
-            for (Products product : products) {
-                if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
-                    String presignedUrl = s3Service.generatePresignedUrl(product.getProductImageUrl(), 3600000);
-                    product.setProductImageUrl(presignedUrl);  
-                }
+//        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication instanceof OAuth2AuthenticationToken) {
+                OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
+                String token = oidcUser.getIdToken().getTokenValue();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setBearerAuth(token);
+
+                HttpEntity<String> entity = new HttpEntity<>(headers);
+
+                String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/").toUriString();
+                ResponseEntity<List<Products>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Products>>() {});
+
+                List<Products> products = response.getBody();
+                model.addAttribute("products", products);
+                return "admin";
+            } else {
+                return "redirect:/admin/";
             }
-            model.addAttribute("products", products);
+//        } catch (Exception e) {
+//            logger.error("Error in viewAdminPage", e);
+//            return "error";
+//        }
+    }
+
+    @PostMapping("/create")
+    public String createProduct(@Valid @ModelAttribute CreateProductCommand command, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
             return "admin";
+        }
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication instanceof OAuth2AuthenticationToken) {
+                OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
+                String token = oidcUser.getIdToken().getTokenValue();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setBearerAuth(token);
+
+                HttpEntity<CreateProductCommand> request = new HttpEntity<>(command, headers);
+                String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/create").toUriString();
+                restTemplate.postForEntity(url, request, Void.class);
+                return "redirect:/admin/";
+            } else {
+                return "redirect:/admin/";
+            }
         } catch (Exception e) {
-            logger.error("Error in adminPage", e);
-            return "error"; 
+            logger.error("Error in createProduct", e);
+            return "error";
+        }
+    }
+    @PutMapping("/update/{productId}")
+    public String updateProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute UpdateProductCommand command, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "admin";
+        }
+//        try {	
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	        if (authentication != null && authentication instanceof OAuth2AuthenticationToken) {
+	            OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
+	            String token = oidcUser.getIdToken().getTokenValue();
+	
+	            HttpHeaders headers = new HttpHeaders();
+	            headers.setBearerAuth(token);
+	            headers.setContentType(MediaType.APPLICATION_JSON);
+
+	
+		        // Handle image file upload
+		        if (command.getProductImageFile() != null && !command.getProductImageFile().isEmpty()) {
+		            String newImageUrl = s3Service.uploadFile(command.getProductImageFile());
+		            command.setProductImageUrl(newImageUrl);
+		        } else {
+		            command.setProductImageUrl(null);
+		        }
+		        
+	            command.setProductId(productId);
+	            HttpEntity<UpdateProductCommand> request = new HttpEntity<>(command, headers);
+	            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/update/" + productId).toUriString();
+	            restTemplate.exchange(url, HttpMethod.PUT, request, Void.class);
+	            return "redirect:/admin/";
+	        }else {
+                return "redirect:/admin/";
+            }
+//        } catch (Exception e) {
+//            logger.error("Error in updateProduct", e);
+//            return "error";
+//        }
+    }
+
+    @DeleteMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable("productId") Long productId) {
+        try {
+            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/delete/" + productId).toUriString();
+            restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
+            return "redirect:/admin/";
+        } catch (Exception e) {
+            logger.error("Error in deleteProduct", e);
+            return "error";
         }
     }
 

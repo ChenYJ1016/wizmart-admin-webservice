@@ -1,4 +1,4 @@
-package com.capstone.wizshop_admin_webservice.dto;
+package com.capstone.wizshop_admin_webservice.DTO;
 
 public class DeleteProductCommand {
     private Long productId;

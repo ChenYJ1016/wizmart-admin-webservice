@@ -38,7 +38,7 @@
                     <img src="${product.productImageUrl}" alt="${product.productName}">
                     <p>${product.productName}</p>
 	                	<button onclick="openUpdateModal(this.parentElement)" type="update">Update</button>
-	                 	<form action="/admin/products/delete/${product.productId}" method="post" style="display:inline;">
+	                 	<form action="/admin/delete/${product.productId}" method="post" style="display:inline;">
 	                 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	                        <input type="hidden" name="_method" value="DELETE">
 	                        <button type="delete">Delete</button>
@@ -167,7 +167,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeCreateModal()">&times;</span>
             <h2>Create New Product</h2>
-            <form id="createForm" action="/admin/products/create" method="post" enctype="multipart/form-data">
+            <form id="createForm" action="/admin/create" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
                 <div class="form-group">
@@ -259,7 +259,7 @@
             const productSize = productCard.getAttribute('data-product-size');
             const productCategory = productCard.getAttribute('data-product-category');
 
-            document.getElementById('updateForm').action = '/admin/products/update/' + productId;
+            document.getElementById('updateForm').action = '/admin/update/' + productId;
             document.getElementById('updateProductId').value = productId;
             document.getElementById('updateProductName').value = productName;
             document.getElementById('updateProductDescription').value = productDescription;

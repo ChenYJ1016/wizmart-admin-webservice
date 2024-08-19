@@ -1,6 +1,8 @@
-package com.capstone.wizshop_admin_webservice.dto;
+package com.capstone.wizshop_admin_webservice.DTO;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +24,7 @@ public class UpdateProductCommand {
     
     private String productImageUrl;
 
+    @JsonIgnore
     private MultipartFile productImageFile;
     
     @NotNull(message = "Product colour must be valid")
