@@ -23,30 +23,27 @@
 	    	<div class="product-container">
 	            <div class="product-card-container">
 	                <#list products as product>
-	                <div class="product-card"
-	                    data-product-id="${product.productId}"
-	                    data-product-name="${product.productName?html}"
-	                    data-product-description="${product.productDescription?html}"
-	                    data-product-price="${product.productPrice}"
-	                    data-product-quantity="${product.productQuantity}"
-	                    data-product-image-url="${product.productImageUrl?html}"
-	                    data-product-colour="${product.productColour?html}"
-	                    data-product-gender="${product.productGender?html}"
-	                    data-product-size="${product.productSize?html}"
-	                    data-product-category="${product.productCategory?html}"
-	                    onclick="openViewModal(this)">
-	                    <img src="${product.productImageUrl}" alt="${product.productName}">
-	                    <p>${product.productName}</p>
-		                	<button onclick="openUpdateModal(this.parentElement)" type="update">Update</button>
-		                 	<form action="/admin/delete/${product.productId}" method="post" style="display:inline;">
-		                 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-		                        <input type="hidden" name="_method" value="DELETE">
-		                        <button type="delete">Delete</button>
-		                    </form>
-	                  </div>
-	                 	
-	                </div>
-	                
+		                <div class="product-card"
+		                    data-product-id="${product.productId}"
+		                    data-product-name="${product.productName?html}"
+		                    data-product-description="${product.productDescription?html}"
+		                    data-product-price="${product.productPrice}"
+		                    data-product-quantity="${product.productQuantity}"
+		                    data-product-image-url="${product.productImageUrl?html}"
+		                    data-product-colour="${product.productColour?html}"
+		                    data-product-gender="${product.productGender?html}"
+		                    data-product-size="${product.productSize?html}"
+		                    data-product-category="${product.productCategory?html}"
+		                    onclick="openViewModal(this)">
+		                    <img src="${product.productImageUrl}" alt="${product.productName}">
+		                    <p>${product.productName}</p>
+			                	<button onclick="openUpdateModal(this.parentElement)" type="update">Update</button>
+			                 	<form action="/admin/delete/${product.productId}" method="post" style="display:inline;">
+			                 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+			                        <input type="hidden" name="_method" value="DELETE">
+			                        <button type="delete">Delete</button>
+			                    </form>
+		                </div>
 	                </#list>
 	            </div>
 	        </div>
