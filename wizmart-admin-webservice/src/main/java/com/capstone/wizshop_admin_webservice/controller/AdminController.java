@@ -119,7 +119,7 @@ public class AdminController {
 		        }
 
                 HttpEntity<CreateProductCommand> request = new HttpEntity<>(command, headers);
-                String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/create").toUriString();
+                String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/admin/create").toUriString();
 	            restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
                 return "redirect:/admin/";
             } else {
@@ -158,7 +158,7 @@ public class AdminController {
 		        
 	            command.setProductId(productId);
 	            HttpEntity<UpdateProductCommand> request = new HttpEntity<>(command, headers);
-	            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/update/" + productId).toUriString();
+	            String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/admin/update/" + productId).toUriString();
 	            restTemplate.exchange(url, HttpMethod.PUT, request, Void.class);
 	            return "redirect:/admin/";
 	        }else {
