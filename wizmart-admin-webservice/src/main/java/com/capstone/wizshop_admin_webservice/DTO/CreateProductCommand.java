@@ -1,5 +1,7 @@
 package com.capstone.wizshop_admin_webservice.DTO;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,9 +20,6 @@ public class CreateProductCommand {
     @Min(value = 0, message = "Product price must be non-negative")
     private double productPrice;
     
-    @Min(value = 0, message = "Product quantity must be non-negative")
-    private int productQuantity;
-    
     private String productImageUrl;
     
     @JsonIgnore
@@ -31,10 +30,10 @@ public class CreateProductCommand {
     
     @NotNull(message = "Target gender for the product must be valid")
     private String productGender;
-    
-    private String productSize;
-    
+        
     private String productCategory;
+    
+    private List<SizeQuantities> sizeQuantities;
 
     // Getters and Setters
     public String getProductName() {
@@ -61,14 +60,6 @@ public class CreateProductCommand {
         this.productPrice = productPrice;
     }
 
-    public int getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(int productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
     public String getProductColour() {
         return productColour;
     }
@@ -83,14 +74,6 @@ public class CreateProductCommand {
 
     public void setProductGender(String productGender) {
         this.productGender = productGender;
-    }
-
-    public String getProductSize() {
-        return productSize;
-    }
-
-    public void setProductSize(String productSize) {
-        this.productSize = productSize;
     }
 
     public String getProductCategory() {
@@ -115,5 +98,13 @@ public class CreateProductCommand {
 
     public void setProductImageUrl(String productImageUrl) {
         this.productImageUrl = productImageUrl;
+    }
+    
+    public List<SizeQuantities> getSizeQuantities() {
+        return sizeQuantities;
+    }
+
+    public void setSizeQuantities(List<SizeQuantities> sizeQuantities) {
+        this.sizeQuantities = sizeQuantities;
     }
 }

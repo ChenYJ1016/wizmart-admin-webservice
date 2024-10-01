@@ -1,5 +1,7 @@
 package com.capstone.wizshop_admin_webservice.DTO;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,9 +21,6 @@ public class UpdateProductCommand {
     @Min(value = 0, message = "Product price must be non-negative")
     private double productPrice;
     
-    @Min(value = 0, message = "Product stock must be non-negative")
-    private int productQuantity;
-    
     private String productImageUrl;
 
     @JsonIgnore
@@ -32,10 +31,10 @@ public class UpdateProductCommand {
     
     @NotNull(message = "Target gender for the product must be valid")
     private String productGender;
-    
-    private String productSize;
-    
+        
     private String productCategory;
+    
+    private List<SizeQuantities> sizeQuantities;
 
     // Getters and Setters
 
@@ -71,15 +70,6 @@ public class UpdateProductCommand {
         this.productPrice = price;
     }
 
-    public int getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(int quantity) {
-        this.productQuantity = quantity;
-    }
-
-
 	public String getProductColour() {
 		return productColour;
 	}
@@ -94,14 +84,6 @@ public class UpdateProductCommand {
 
 	public void setProductGender(String productGender) {
 		this.productGender = productGender;
-	}
-
-	public String getProductSize() {
-		return productSize;
-	}
-
-	public void setProductSize(String size) {
-		this.productSize = size;
 	}
 
 	public String getProductCategory() {
@@ -127,4 +109,12 @@ public class UpdateProductCommand {
 	public void setProductImageUrl(String productImageUrl) {
 		this.productImageUrl = productImageUrl;
 	}
+	
+    public List<SizeQuantities> getSizeQuantities() {
+        return sizeQuantities;
+    }
+
+    public void setSizeQuantities(List<SizeQuantities> sizeQuantities) {
+        this.sizeQuantities = sizeQuantities;
+    }
 }
