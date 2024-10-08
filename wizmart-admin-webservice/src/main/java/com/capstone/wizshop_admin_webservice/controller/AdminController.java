@@ -142,7 +142,8 @@ public class AdminController {
 	        if (authentication != null && authentication instanceof OAuth2AuthenticationToken) {
 	            OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
 	            String token = oidcUser.getIdToken().getTokenValue();
-	
+	            
+//	            logger.info("test");
 	            HttpHeaders headers = new HttpHeaders();
 	            headers.setBearerAuth(token);
 	            headers.setContentType(MediaType.APPLICATION_JSON);

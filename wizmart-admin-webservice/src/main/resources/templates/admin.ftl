@@ -35,9 +35,9 @@
 					        <#assign sizeQuantitiesString=''>
 					        <#list product.sizeQuantities as sq>
 					            <#if sq_has_next>
-					                <#assign sizeQuantitiesString += sq.size + ':' + sq.quantity + ';'>
+					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity + ';'>
 					            <#else>
-					                <#assign sizeQuantitiesString += sq.size + ':' + sq.quantity>
+					                <#assign sizeQuantitiesString += sq.size?trim + ':' + sq.quantity>
 					            </#if>
 					        </#list>
 					        ${sizeQuantitiesString}">
@@ -122,6 +122,11 @@
                     <label for="updateProductPrice">Price:</label>
                     <input type="number" id="updateProductPrice" name="productPrice" step="0.01" min="0" required>
                 </div>
+                
+                 <div class="form-group">
+                    <label for="updateProductImageFile">New Image:</label>
+                    <input type="file" id="updateProductImageFile" name="productImageFile" accept="image/*">
+                </div>
 
                 <div class="form-group">
                     <label for="updateProductColour">Colour:</label>
@@ -138,14 +143,15 @@
                     <input type="text" id="updateProductCategory" name="productCategory">
                 </div>
 
-                <div class="form-group">
-                    <label for="updateSizeQuantityContainer">Size & Quantity:</label>
+                <div class="form-group" id="updateSizeQuantityContainer">
+                    <label>Size & Quantity:</label>
                     <div class="size-quantity-pair">
-                        <input type="text" name="sizeQuantities[0].size" placeholder="Size (e.g. M)" required>
+                        <input type="text" name="sizeQuantities[0].size" placeholder="Size (e.g. M)" class="form-control" required>
                         <input type="number" name="sizeQuantities[0].quantity" placeholder="Quantity" min="0" required>
                     </div>
-                    <button type="button" onclick="addSizeQuantityField('updateSizeQuantityContainer')">Add More</button>
                 </div>
+				
+				<button type="button" onclick="addUpdateSizeQuantityField('updateSizeQuantityContainer')">Add Size/Quantity</button>
 
                 <button type="submit">Update</button>
             </form>
@@ -201,8 +207,8 @@
                         <input type="text" name="sizeQuantities[0].size" placeholder="Size (e.g. M)" required>
                         <input type="number" name="sizeQuantities[0].quantity" placeholder="Quantity" min="0" required>
                     </div>
-                    <button type="button" onclick="addSizeQuantityField()">Add More</button>
                 </div>
+				<button type="button" onclick="addSizeQuantityField()">Add More</button>
 
                 <button type="submit">Create</button>
             </form>

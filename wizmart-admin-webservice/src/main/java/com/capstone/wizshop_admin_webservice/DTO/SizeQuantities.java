@@ -10,7 +10,7 @@ public class SizeQuantities {
     }
 
     public void setSize(String size) {
-        this.size = size;
+        this.size = size.trim();
     }
 
     public int getQuantity() {
