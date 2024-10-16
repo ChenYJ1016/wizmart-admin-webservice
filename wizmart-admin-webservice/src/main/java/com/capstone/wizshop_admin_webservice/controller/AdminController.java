@@ -31,7 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.capstone.wizshop_admin_webservice.DTO.CreateProductCommand;
 import com.capstone.wizshop_admin_webservice.DTO.DeleteProductCommand;
-import com.capstone.wizshop_admin_webservice.DTO.Products;
+import com.capstone.wizshop_admin_webservice.DTO.ProductsDTO;
 import com.capstone.wizshop_admin_webservice.DTO.UpdateProductCommand;
 import com.capstone.wizshop_admin_webservice.Services.Aws.AdminS3Service;
 import com.capstone.wizshop_admin_webservice.properties.Properties;
@@ -83,9 +83,9 @@ public class AdminController {
                 HttpEntity<String> entity = new HttpEntity<>(headers);
 
                 String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/").toUriString();
-                ResponseEntity<List<Products>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Products>>() {});
+                ResponseEntity<List<ProductsDTO>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<ProductsDTO>>() {});
 
-                List<Products> products = response.getBody();
+                List<ProductsDTO> products = response.getBody();
                 model.addAttribute("products", products);
                 return "admin";
             } else {
@@ -142,7 +142,8 @@ public class AdminController {
 	        if (authentication != null && authentication instanceof OAuth2AuthenticationToken) {
 	            OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
 	            String token = oidcUser.getIdToken().getTokenValue();
-	
+	            
+//	            logger.info("test");
 	            HttpHeaders headers = new HttpHeaders();
 	            headers.setBearerAuth(token);
 	            headers.setContentType(MediaType.APPLICATION_JSON);
