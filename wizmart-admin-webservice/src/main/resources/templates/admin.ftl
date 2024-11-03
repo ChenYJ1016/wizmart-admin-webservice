@@ -10,7 +10,7 @@
     <div class="navbar">
         <a href="#home">Home</a>
         <a href="#orders">Orders</a>
-        <a href="/admin/logout" class="logout-button">Logout</a>
+        <a href="/auth/logout" class="logout-button">Logout</a>
     </div>
 
     <div class="container">

@@ -1,4 +1,4 @@
-package com.capstone.wizshop_admin_webservice.Services.Aws;
+package com.capstone.wizshop_admin_webservice.Services;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

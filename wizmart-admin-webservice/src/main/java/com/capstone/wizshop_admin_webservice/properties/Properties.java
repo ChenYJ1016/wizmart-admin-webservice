@@ -5,32 +5,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Properties {
-	
-	 @Value("${aws.cognito.logoutUrl}")
-	 private String logoutUrl;
 
-	 @Value("${aws.cognito.logout.success.redirectUrl}")
-	 private String logoutSuccessRedirectUrl;
-	 
-	 @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
-	 private String clientId;
-	 
-	 @Value("${wizshop.common.repo.url}")
-	 private String commonRepoUrl;
+    @Value("${wizshop.common.repo.url}")
+    private String commonRepoUrl;
 
-	 public String getLogoutUrl() {
-        return logoutUrl;
-	 }
+    @Value("${security.jwt.secret}")
+    private String jwtSecret;
 
-	 public String getLogoutSuccessRedirectUrl() {
-        return logoutSuccessRedirectUrl;
-	 }
-	 
-	 public String getClientId() {
-		 return clientId;
-	 }
-	 
-	 public String getCommonRepoUrl() {
-		 return commonRepoUrl;
-	 }
+    // Getters
+    public String getCommonRepoUrl() {
+        return commonRepoUrl;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
 }
