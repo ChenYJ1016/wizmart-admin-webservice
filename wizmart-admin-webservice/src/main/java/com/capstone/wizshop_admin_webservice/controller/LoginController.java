@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -34,17 +36,25 @@ public class LoginController {
             HttpServletRequest request,
             Model model) {
         try {
-        	logger.info("logging in");
-            String token = authenticationService.authenticate(username, rawPassword);
+            logger.info("Attempting to log in");
+
+            // Sanitize inputs to prevent XSS
+            String sanitizedUsername = HtmlUtils.htmlEscape(username.trim());
+            String sanitizedPassword = HtmlUtils.htmlEscape(rawPassword.trim());
+
+            String token = authenticationService.authenticate(sanitizedUsername, sanitizedPassword);
+            
             // Store token in session
             HttpSession session = request.getSession();
             session.setAttribute("token", token);
+
             return "redirect:/admin/";
         } catch (Exception e) {
             model.addAttribute("error", "Invalid credentials");
             return "login";
         }
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {

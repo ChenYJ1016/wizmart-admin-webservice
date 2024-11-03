@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,7 +58,6 @@ public class AdminController {
             logger.info("Token found: " + token);
 
             HttpHeaders headers = new HttpHeaders();
-//            headers.setBearerAuth(token);
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
@@ -77,8 +77,6 @@ public class AdminController {
         }
     }
 
-    
-
     @PostMapping("/create")
     public String createProduct(@Valid @ModelAttribute CreateProductCommand command,
                                 BindingResult result,
@@ -95,17 +93,23 @@ public class AdminController {
                 return "redirect:/auth/login";
             }
 
-            HttpHeaders headers = new HttpHeaders();
-//            headers.setBearerAuth(token);
+            // Sanitize product details
+            command.setProductName(HtmlUtils.htmlEscape(command.getProductName().trim()));
+            command.setProductDescription(HtmlUtils.htmlEscape(command.getProductDescription().trim()));
+            command.setProductColour(HtmlUtils.htmlEscape(command.getProductColour().trim()));
+            command.setProductGender(HtmlUtils.htmlEscape(command.getProductGender().trim()));
+            command.setProductCategory(HtmlUtils.htmlEscape(command.getProductCategory().trim()));
 
             if (command.getProductImageFile() != null && !command.getProductImageFile().isEmpty()) {
                 String newImageUrl = s3Service.uploadFile(command.getProductImageFile());
                 command.setProductImageUrl(newImageUrl);
             }
 
+            HttpHeaders headers = new HttpHeaders();
             HttpEntity<CreateProductCommand> requestEntity = new HttpEntity<>(command, headers);
             String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/admin/create").toUriString();
             restTemplate.exchange(url, HttpMethod.POST, requestEntity, Void.class);
+            
             return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in createProduct", e);
@@ -130,9 +134,12 @@ public class AdminController {
                 return "redirect:/auth/login";
             }
 
-            HttpHeaders headers = new HttpHeaders();
-//            headers.setBearerAuth(token);
-            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Sanitize input fields
+            command.setProductName(HtmlUtils.htmlEscape(command.getProductName().trim()));
+            command.setProductDescription(HtmlUtils.htmlEscape(command.getProductDescription().trim()));
+            command.setProductColour(HtmlUtils.htmlEscape(command.getProductColour().trim()));
+            command.setProductGender(HtmlUtils.htmlEscape(command.getProductGender().trim()));
+            command.setProductCategory(HtmlUtils.htmlEscape(command.getProductCategory().trim()));
 
             if (command.getProductImageFile() != null && !command.getProductImageFile().isEmpty()) {
                 String newImageUrl = s3Service.uploadFile(command.getProductImageFile());
@@ -142,15 +149,20 @@ public class AdminController {
             }
 
             command.setProductId(productId);
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<UpdateProductCommand> requestEntity = new HttpEntity<>(command, headers);
             String url = UriComponentsBuilder.fromHttpUrl(properties.getCommonRepoUrl() + "/api/products/admin/update/" + productId).toUriString();
             restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Void.class);
+            
             return "redirect:/admin/";
         } catch (Exception e) {
             logger.error("Error in updateProduct", e);
             return "error";
         }
     }
+
 
     @DeleteMapping("/delete/{productId}")
     public String deleteProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute DeleteProductCommand command, BindingResult result, Model model,HttpServletRequest request) {
