@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/admin/css/styles.css">
     <link rel="icon" href="/static/icon/favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -59,7 +59,11 @@
 	<div id="viewModal" class="modal">
 	    <div class="modal-content">
 	        <span class="close" onclick="closeViewModal()">&times;</span>
-	        <h2>View Product</h2>
+	        
+	        <div class="product-image-container">
+            	<img id="viewProductImage" alt="Product Image" class="modal-product-image">
+        	</div>
+        	
 	        <div class="form-group">
 	            <label for="viewProductName">Name:</label>
 	            <p id="viewProductName"></p>
@@ -153,7 +157,7 @@
 				
 				<button type="button" onclick="addUpdateSizeQuantityField('updateSizeQuantityContainer')">Add Size/Quantity</button>
 
-                <button type="submit">Update</button>
+				<button type="submit" class="update">Update</button>
             </form>
         </div>
     </div>
@@ -202,19 +206,21 @@
                 </div>
 
                 <div class="form-group" id="sizeQuantityContainer">
-                    <label>Size & Quantity:</label>
-                    <div class="size-quantity-pair">
-                        <input type="text" name="sizeQuantities[0].size" placeholder="Size (e.g. M)" required>
-                        <input type="number" name="sizeQuantities[0].quantity" placeholder="Quantity" min="0" required>
-                    </div>
-                </div>
+				    <label>Size & Quantity:</label>
+				    <div class="size-quantity-pair">
+				        <input type="text" name="sizeQuantities[0].size" placeholder="Size (e.g. M)" required>
+				        <input type="number" name="sizeQuantities[0].quantity" placeholder="Quantity" min="0" required>
+				        <button type="button" class="remove-size-quantity" onclick="removeSizeQuantityField(this)">Remove</button>
+				    </div>
+				</div>
+
 				<button type="button" onclick="addSizeQuantityField()">Add More</button>
 
-                <button type="submit">Create</button>
+                <button type="submit" class="create">Create</button>
             </form>
         </div>
     </div>
 
-    <script src="/static/js/admin.js"></script>
+    <script src="/static/admin/js/admin.js"></script>
 </body>
 </html>

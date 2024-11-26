@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="/static/css/loginstyles.css">
+    <link rel="stylesheet" href="/static/admin/css/loginstyles.css">
 </head>
 <body>
     <div class="login-container">

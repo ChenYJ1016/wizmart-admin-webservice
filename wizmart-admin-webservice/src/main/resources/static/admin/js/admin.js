@@ -3,6 +3,7 @@ function openViewModal(productCard) {
     const productDescription = productCard.getAttribute('data-product-description');
     const productPrice = productCard.getAttribute('data-product-price');
     const productColour = productCard.getAttribute('data-product-colour');
+    const productImageUrl = productCard.dataset.productImageUrl;
     const productGender = productCard.getAttribute('data-product-gender');
     const productCategory = productCard.getAttribute('data-product-category');
 	const sizeQuantities = productCard.getAttribute('data-product-size-quantities').split(';').map(sq => sq.trim());
@@ -27,6 +28,10 @@ function openViewModal(productCard) {
         }
     });
 
+	const productImage = document.getElementById('viewProductImage');
+    productImage.src = productImageUrl;
+    productImage.alt = productName;
+    
     // Show the modal
     document.getElementById('viewModal').style.display = 'block';
 }
@@ -118,9 +123,6 @@ function addSizeQuantityField(containerId = 'sizeQuantityContainer') {
     container.appendChild(newPairDiv);
 }
 
-function removeSizeQuantityField(button) {
-    button.parentElement.remove();
-}
 
 function addUpdateSizeQuantityField(containerId, size = '', quantity = '') {
     const container = document.getElementById(containerId);
@@ -131,8 +133,18 @@ function addUpdateSizeQuantityField(containerId, size = '', quantity = '') {
     sizeQuantityPair.innerHTML = `
         <input type="text" name="sizeQuantities[${index}].size" value="${size}" placeholder="Size (e.g. M)" required>
         <input type="number" name="sizeQuantities[${index}].quantity" value="${quantity}" placeholder="Quantity" min="0" required>
-        <button type="button" onclick="removeSizeQuantityField(this)">Remove</button>
+        <button type="button" onclick="removeSizeQuantityField(this, '${index}')">Remove</button>
+        <input type="hidden" name="sizeQuantities[${index}]._isRemoved" value="false" class="is-removed">
     `;
 
     container.appendChild(sizeQuantityPair);
 }
+
+function removeSizeQuantityField(button, index) {
+    const sizeQuantityPair = button.parentElement;
+    
+    // Mark the item as removed instead of deleting the DOM element
+    sizeQuantityPair.style.display = 'none'; // Hide the pair visually
+    sizeQuantityPair.querySelector(`input[name="sizeQuantities[${index}]._isRemoved"]`).value = "true";
+}
+

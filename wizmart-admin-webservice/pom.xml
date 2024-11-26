@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.capstone</groupId>
-	<artifactId>wizmart-admin-webservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>wizshop-admin-webservice</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>wizmart-admin-webservice</name>
-	<description>admin webservice for wizmart</description>
+	<description>admin webservice for wizshop</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -48,7 +48,6 @@ public class AdminController {
         try {
             logger.info("view admin");
 
-            // Get token from session and log it for debugging
             String token = (String) request.getSession().getAttribute("token");
             if (token == null) {
                 logger.warn("Token is missing, redirecting to login");
